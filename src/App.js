@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 let defaultStyle = {
@@ -77,7 +77,7 @@ class Filter extends Component {
   render() {
     return (
       <div style={defaultStyle}>
-        <img/>
+        <img alt=''/>
         <input type="text"/>
       </div>
     );
@@ -86,14 +86,17 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
+    let playlist = this.props.playlist;
     return (
       <div style={{...defaultStyle, width: '20%', display: 'inline-block'}}>
-        <img/>
-        <h3>Playlist Name</h3>
+        <img alt=''/>
+        <h3>{playlist.name}</h3>
         <ul>
-          <li>Song 1</li>
-          <li>Song 2</li>
-          <li>Song 3</li>
+          {
+            playlist.songs.map(
+              song => <li>{song.name}</li>
+            )
+          }
         </ul>
       </div>
     );
@@ -118,22 +121,24 @@ class App extends Component {
   }
 
   render() {
+    let user = this.state.serverData.user;
+
     return (
       <div className="App">
         {
-          this.state.serverData.user ? 
+          user ? 
           <div>
-            <h1 style={{...defaultStyle, 'font-size': '54px'}}>
-              Hello {this.state.serverData.user.name}
+            <h1 style={{...defaultStyle, 'fontSize': '54px'}}>
+              Hello {user.name}
             </h1>
-            <PlaylistsCounter playlists={this.state.serverData.user.playlists}/>
-            <HoursCounter playlists={this.state.serverData.user.playlists}/>
-        
+            <PlaylistsCounter playlists={user.playlists}/>
+            <HoursCounter playlists={user.playlists}/>
             <Filter/>
-            <Playlist/>
-            <Playlist/>
-            <Playlist/>
-            <Playlist/>
+            {
+              user.playlists.map(playlist =>
+                <Playlist playlist={playlist}/>
+              )
+            }
           </div> : <h1 style={defaultStyle}>Loading ...</h1>
         }
       </div>
