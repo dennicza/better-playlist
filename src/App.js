@@ -6,6 +6,7 @@ let defaultStyle = {
   color: '#fff'
 };
 
+<<<<<<< HEAD
 let fakeServerData = {
   user: {
     name: 'David',
@@ -68,6 +69,13 @@ class HoursCounter extends Component {
     return (
       <div style={{...defaultStyle, width: '40%', display: 'inline-block'}}>
         <h2>{Math.round(totalDuration / 60 / 60)} hours</h2>
+=======
+class Aggregate extends Component {
+  render() {
+    return (
+      <div style={{...defaultStyle, width: '40%', display: 'inline-block'}}>
+        <h2>Number Text</h2>
+>>>>>>> 483e01fc69e4f8564977066d823ea5bc6abbb904
       </div>
     );
   }
@@ -101,6 +109,7 @@ class Playlist extends Component {
 }
 
 class App extends Component {
+<<<<<<< HEAD
   constructor() {
     super();
 
@@ -136,6 +145,19 @@ class App extends Component {
             <Playlist/>
           </div> : <h1 style={defaultStyle}>Loading ...</h1>
         }
+=======
+  render() {
+    return (
+      <div className="App">
+        <h1 style={{...defaultStyle, 'font-size': '54px'}}>Title</h1>
+        <Aggregate/>
+        <Aggregate/>
+        <Filter/>
+        <Playlist/>
+        <Playlist/>
+        <Playlist/>
+        <Playlist/>
+>>>>>>> 483e01fc69e4f8564977066d823ea5bc6abbb904
       </div>
     );
   }
