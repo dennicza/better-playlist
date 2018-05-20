@@ -130,6 +130,13 @@ class App extends Component {
 
   render() {
     let user = this.state.serverData.user;
+    let fltr = this.state.filterString.toLowerCase();
+    let playListToRender = user ? user.playlists.filter((playlist) => {
+      return (
+        playlist.name.toLowerCase().includes(fltr)
+        // || playlist.songs.filter(song => song.name.includes(fltr))
+      );
+    }) : [];
 
     return (
       <div className="App">
@@ -139,25 +146,15 @@ class App extends Component {
             <h1 style={{...defaultStyle, 'fontSize': '54px'}}>
               Hello {user.name}
             </h1>
-            <PlaylistsCounter playlists={user.playlists}/>
-            <HoursCounter playlists={user.playlists}/>
+            <PlaylistsCounter playlists={playListToRender}/>
+            <HoursCounter playlists={playListToRender}/>
             <Filter onTextChange={
               text => this.setState({filterString: text})
             }/>
             {
-              user.playlists
-                .filter(
-                  (playlist) => {
-                    let fltr = this.state.filterString.toLowerCase();
-                    return (
-                      playlist.name.toLowerCase().includes(fltr)
-                      // || playlist.songs.filter(song => song.name.includes(fltr))
-                    );
-                  }
-                )
-                .map((playlist, index) => {
-                  return <Playlist key={index} playlist={playlist}/>
-                })
+              playListToRender.map((playlist, index) => {
+                return <Playlist key={index} playlist={playlist}/>
+              })
             }
           </div> : <h1 style={defaultStyle}>Loading ...</h1>
         }
