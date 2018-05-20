@@ -78,7 +78,7 @@ class Filter extends Component {
     return (
       <div style={defaultStyle}>
         <img alt=''/>
-        <input type="text"/>
+        <input type='text' onKeyUp={event => this.props.onTextChange(event.target.value)}/>
       </div>
     );
   }
@@ -94,7 +94,9 @@ class Playlist extends Component {
         <ul>
           {
             playlist.songs.map(
-              song => <li>{song.name}</li>
+              (song, index) => {
+               return <li key={index}>{song.name}</li>
+              }
             )
           }
         </ul>
@@ -108,7 +110,8 @@ class App extends Component {
     super();
 
     this.state = {
-      serverData: {}
+      serverData: {},
+      filterString: ''
     }
   }
 
@@ -118,6 +121,11 @@ class App extends Component {
         serverData: fakeServerData
       });
     }, 1000);
+    setTimeout(() => {
+      this.setState({
+        filterString: ''
+      });
+    }, 2000);
   }
 
   render() {
@@ -133,11 +141,23 @@ class App extends Component {
             </h1>
             <PlaylistsCounter playlists={user.playlists}/>
             <HoursCounter playlists={user.playlists}/>
-            <Filter/>
+            <Filter onTextChange={
+              text => this.setState({filterString: text})
+            }/>
             {
-              user.playlists.map(playlist =>
-                <Playlist playlist={playlist}/>
-              )
+              user.playlists
+                .filter(
+                  (playlist) => {
+                    let fltr = this.state.filterString.toLowerCase();
+                    return (
+                      playlist.name.toLowerCase().includes(fltr)
+                      // || playlist.songs.filter(song => song.name.includes(fltr))
+                    );
+                  }
+                )
+                .map((playlist, index) => {
+                  return <Playlist key={index} playlist={playlist}/>
+                })
             }
           </div> : <h1 style={defaultStyle}>Loading ...</h1>
         }
