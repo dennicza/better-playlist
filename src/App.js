@@ -180,22 +180,29 @@ class App extends Component {
     return (
       <div className="App">
         {
-          user ? 
-          <div>
-            <h1 style={{...defaultStyle, 'fontSize': '54px'}}>
-              Hello {user.name}
-            </h1>
-            <PlaylistsCounter playlists={playListToRender}/>
-            <HoursCounter playlists={playListToRender}/>
-            <Filter onTextChange={
-              text => this.setState({filterString: text})
-            }/>
-            {
-              playListToRender.map((playlist, index) => {
-                return <Playlist key={index} playlist={playlist}/>
-              })
+          user 
+          ? <div>
+              <h1 style={{...defaultStyle, 'fontSize': '54px'}}>
+                Hello {user.name}
+              </h1>
+              <PlaylistsCounter playlists={playListToRender}/>
+              <HoursCounter playlists={playListToRender}/>
+              <Filter onTextChange={
+                text => this.setState({filterString: text})
+              }/>
+              {
+                playListToRender.map((playlist, index) => {
+                  return <Playlist key={index} playlist={playlist}/>
+                })
+              }
+            </div>
+          : <button onClick={() => {
+              window.location = window.loctaion.includs('localhost')
+                ? 'http://localhost:8888/login'
+                : 'https://bplst-spotify.herokuapp.com/login'
+              }
             }
-          </div> : <button onClick={()=>window.location='http://localhost:8888/login'} style={{padding: '20px', fontSize: '50px', marginTop: '20px'}}>Singn In with Spotify</button>
+            style={{padding: '20px', fontSize: '50px', marginTop: '20px'}}>Singn In with Spotify</button>
         }
       </div>
     );
