@@ -133,6 +133,9 @@ class App extends Component {
   let parsed = queryString.parse(window.location.search);
   let accessToken = parsed.access_token;
 
+  if(!accessToken)
+    return;
+
   fetch('https://api.spotify.com/v1/me', {
     headers: {'Authorization': 'Bearer ' + accessToken}
   })
